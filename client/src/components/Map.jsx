@@ -1,4 +1,7 @@
 import Wall from './Wall'
+import wallImage from './assets/wall.png'
+import floorImage from './assets/floor.png'
+import ceilingImage from './assets/ceiling.png'
 
 export const mapData = [
   [1, 1, 1, 1, 1, 1, 1],
@@ -29,13 +32,25 @@ export default function Map() {
 
   return (
     <>
-      <Wall args={floorSize} position={[(floorWidth - 1) / 2, -0.5, (floorDepth - 1) / 2]} color="brown" />
-      <Wall args={floorSize} position={[(floorWidth - 1) / 2, 0.5, (floorDepth - 1) / 2]} color="brown" />
+      <Wall
+        args={floorSize}
+        position={[(floorWidth - 1) / 2, -0.5, (floorDepth - 1) / 2]}
+        textureImage={floorImage}
+        repeatX={mapData.length}
+        repeatY={mapData[0].length}
+      />
+      <Wall
+        args={floorSize}
+        position={[(floorWidth - 1) / 2, 0.5, (floorDepth - 1) / 2]}
+        textureImage={ceilingImage}
+        repeatX={mapData.length * 4}
+        repeatY={mapData[0].length  * 4}
+      />
 
       {
         mapData.flatMap((row, i) => (
           row.map((cell, j) => 
-            cell === 1 ? <Wall key={`${i}-${j}`} position={[i, 0, j]} args={wallSize} /> : null
+            cell === 1 ? <Wall key={`${i}-${j}`} position={[i, 0, j]} args={wallSize} textureImage={wallImage} /> : null
           )
         ))
       }

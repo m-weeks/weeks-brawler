@@ -22,7 +22,7 @@ export default function CameraControls() {
   const rotateRight = useRef(false);
 
   const speed = 0.03;
-  const rotationSpeed = 0.02;
+  const rotationSpeed = 0.04;
 
   const handleKeyDown = (event) => {
     switch (event.code) {
