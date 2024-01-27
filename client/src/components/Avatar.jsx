@@ -8,7 +8,15 @@ const Avatar = ({ position }) => {
   const material = useMemo(() => new SpriteMaterial({ map: texture, transparent: true }), [texture]);
 
   return (
-    <sprite material={material} position={position} scale={[1, 1, 1]}>
+    <sprite
+      material={material}
+      position={[
+        position[0],
+        position[1] - (0.25 / 2),
+        position[2]
+      ]}
+      scale={[0.5, 0.75, 0.5]}
+    >
       <primitive object={new Sprite(material)} />
     </sprite>
   );
