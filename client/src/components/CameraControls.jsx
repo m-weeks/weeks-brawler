@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useThree, useFrame } from '@react-three/fiber';
 import { mapData } from './Map';
+import { Vector3 } from 'three'
 
 export default function CameraControls() {
   const {
@@ -105,25 +106,23 @@ export default function CameraControls() {
   }, []);
 
   useFrame(() => {
-    // Calculate the potential new position based on current movement
     const delta = speed;
-
-    const originalPosition = { x: camera.position.x, z: camera.position.z };
-
-    // Forward and backward movement
-    camera.translateZ((moveBackward.current - moveForward.current) * delta);
-
-    // Left and right strafing movement
-    camera.translateX((moveRight.current - moveLeft.current) * delta);
-
-    // Check for collision
-    if (checkCollision({ x: camera.position.x, z: camera.position.z })) {
-      // If collision, revert to the original position
-      camera.position.x = originalPosition.x;
-      camera.position.z = originalPosition.z;
+    const forwardDirection = new Vector3();
+    const rightDirection = new Vector3();
+    camera.getWorldDirection(forwardDirection);
+    rightDirection.copy(forwardDirection).applyAxisAngle(new Vector3(0, 1, 0), Math.PI / 2);
+  
+    // Calculate new positions
+    const newPositionX = camera.position.x - forwardDirection.x * (moveBackward.current - moveForward.current) * delta - rightDirection.x * (moveRight.current - moveLeft.current) * delta;
+    const newPositionZ = camera.position.z - forwardDirection.z * (moveBackward.current - moveForward.current) * delta - rightDirection.z * (moveRight.current - moveLeft.current) * delta;
+  
+    if (!checkCollision({ x: newPositionX, z: camera.position.z })) {
+      camera.position.x = newPositionX;
     }
-
-    // Handle rotation
+    if (!checkCollision({ x: camera.position.x, z: newPositionZ })) {
+      camera.position.z = newPositionZ;
+    }
+  
     if (rotateLeft.current) {
       camera.rotation.y += rotationSpeed;
     }
