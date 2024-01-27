@@ -11,6 +11,7 @@ export default function CameraControls() {
   useEffect(() => {
     camera.position.x = 1;
     camera.position.z = 1;
+    camera.position.y = 0.15;
     camera.rotation.y = Math.PI
   }, []);
 
