@@ -1,19 +1,41 @@
+import _ from 'lodash';
 import { Canvas } from '@react-three/fiber';
 import Map from './components/Map'
 import CameraControls from './components/CameraControls';
 import Avatar from './components/Avatar';
 import FirstPersonWeapon from './components/FirstPersonWeapon';
+import ServerConnection from './util/ServerConnection';
 
 function App() {
   return (
     <div style={{ position: 'relative' }}>
-      <Canvas style={{ width: '100vw', height: '100vh' }}>
-        <CameraControls />
-        <ambientLight intensity={2} />
-        <Map />
-        <Avatar position={[3, 0, 2]} />
-      </Canvas>
-      <FirstPersonWeapon />
+      <ServerConnection>
+        {
+          (({ gameState, localState, updatePlayer }) => (
+            <>
+              <Canvas style={{ width: '100vw', height: '100vh' }}>
+                <CameraControls myPlayer={localState.myPlayer} updatePlayer={updatePlayer} />
+                <ambientLight intensity={2} />
+                <Map />
+                {
+                  _.map(gameState.players, (player, playerId) => {
+                    if (playerId === localState.clientId) {
+                      return null;
+                    }
+                    return (
+                      <Avatar
+                        key={playerId}
+                        position={[player.x, 0, player.z]}
+                      />
+                    );
+                  })
+                }
+              </Canvas>
+              <FirstPersonWeapon />
+            </>
+          ))
+        }
+      </ServerConnection>
     </div>
   );
 }

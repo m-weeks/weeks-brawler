@@ -3,16 +3,18 @@ import { useThree, useFrame } from '@react-three/fiber';
 import { mapData } from './Map';
 import { Vector3 } from 'three'
 
-export default function CameraControls() {
+export default function CameraControls({ myPlayer, updatePlayer }) {
   const {
     camera,
   } = useThree();
 
+  const originalPlayerRef = useRef(myPlayer);
+
   useEffect(() => {
-    camera.position.x = 1;
-    camera.position.z = 1;
+    camera.position.x = originalPlayerRef.current.x;
+    camera.position.z = originalPlayerRef.current.z;
     camera.position.y = 0.15;
-    camera.rotation.y = Math.PI
+    camera.rotation.y = originalPlayerRef.current.angle;
   }, []);
 
   const moveForward = useRef(false);
@@ -130,6 +132,13 @@ export default function CameraControls() {
     if (rotateRight.current) {
       camera.rotation.y -= rotationSpeed;
     }
+
+    // Update local state copy to have new position. This will get synced with the server at a regular interval
+    updatePlayer({
+      x: camera.position.x,
+      z: camera.position.z,
+      angle: camera.rotation.y,
+    });
   });
 
   return null;
