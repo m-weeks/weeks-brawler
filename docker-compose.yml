@@ -1,0 +1,18 @@
+services:
+  client:
+    image: node
+    command: npm run dev --host
+    working_dir: /app
+    volumes:
+      - ./client:/app
+    ports:
+      - 5173:5173
+    restart: always
+  # server:
+  #   image: oven/bun
+  #   command: bun run dev
+  #   working_dir: /app
+  #   volumes:
+  #     - ./server:/app
+  #   ports:
+  #     - 5174:5174

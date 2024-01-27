@@ -1,0 +1,12 @@
+{
+  "name": "gamejam-2024-server",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}
