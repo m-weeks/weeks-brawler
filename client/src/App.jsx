@@ -26,6 +26,8 @@ function App() {
                       <Avatar
                         key={playerId}
                         position={[player.x, 0, player.z]}
+                        angle={player.angle}
+                        myPlayer={localState.myPlayer}
                       />
                     );
                   })
