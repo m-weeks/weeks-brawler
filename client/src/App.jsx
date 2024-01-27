@@ -7,8 +7,7 @@ function App() {
   return (
     <Canvas style={{ width: '100vw', height: '100vh' }}>
       <CameraControls />
-      <ambientLight />
-      {/* <pointLight position={[10, 10, 10]} /> */}
+      <ambientLight intensity={2} />
       <Map />
       <Avatar position={[3, 0, 2]} />
     </Canvas>
