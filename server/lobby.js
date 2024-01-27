@@ -23,6 +23,7 @@ export const addToLobby = (ws, clientId) => {
     x: 1.5,
     z: 1.5,
     angle: Math.PI,
+    punching: false
   };
 
   gameState.players[clientId] = player;

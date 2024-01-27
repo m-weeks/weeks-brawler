@@ -25,15 +25,14 @@ function App() {
                     return (
                       <Avatar
                         key={playerId}
-                        position={[player.x, 0, player.z]}
-                        angle={player.angle}
+                        player={player}
                         myPlayer={localState.myPlayer}
                       />
                     );
                   })
                 }
               </Canvas>
-              <FirstPersonWeapon />
+              <FirstPersonWeapon updatePlayer={updatePlayer} />
             </>
           ))
         }

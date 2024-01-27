@@ -3,7 +3,7 @@ import idleImage from './assets/fists/fists.png'
 import leftPunchImage from './assets/fists/left-punch.png'
 import rightPunchImage from './assets/fists/right-punch.png'
 
-export default function FirstPersonWeapon() {
+export default function FirstPersonWeapon({ updatePlayer }) {
   const [image, setImage] = useState(idleImage);
   const [punch, setPunch] = useState(false);
 
@@ -31,6 +31,10 @@ export default function FirstPersonWeapon() {
       clearTimeout(timer)
     };
   }, []);
+
+  useEffect(() => {
+    updatePlayer({ punching: punch })
+  }, [punch])
 
   return (
     <img
