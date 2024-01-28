@@ -59,9 +59,17 @@ export default function FirstPersonWeapon({ updatePlayer, localState, gameState 
   }
 
   return (
-    <img
-      src={image}
-      style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', opacity: opacity }}
-    />
+    <>
+      {/* Load images beforehand so they are ready for use (Otherwise they may not load in production) */}
+      <div style={{ position: 'absolute', width: 0, height: 0, top: 0, left: 0, overflow: 'hidden'}}>
+        <img src={leftPunchImage} />
+        <img src={rightPunchImage} />
+        <img src={idleImage} />
+      </div>
+      <img
+        src={image}
+        style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', opacity: opacity }}
+      />
+    </>
   )
 }
