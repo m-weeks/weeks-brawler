@@ -27,7 +27,7 @@ export default ({ children }) => {
             }}
           >
             <div style={{ textAlign: 'center' }}>
-              <img src={avatar.front.idle} style={{ width: '100%' }} />
+              <img src={avatar.front.idle} style={{ width: '100%', cursor: 'pointer' }} onClick={() => { setAvatar(index) }} />
             </div>
             <div
               style={{ textAlign: 'center', fontSize: '32px', backgroundColor: 'lightblue', borderRadius: '5px', cursor: 'pointer' }}
