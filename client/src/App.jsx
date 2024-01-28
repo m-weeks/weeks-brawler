@@ -6,6 +6,7 @@ import Avatar from './components/Avatar';
 import FirstPersonWeapon from './components/FirstPersonWeapon';
 import ServerConnection from './util/ServerConnection';
 import HUD from './components/HUD';
+import Sounds from './components/Sounds';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
                     );
                   })
                 }
+                <Sounds localState={localState} gameState={gameState} />
               </Canvas>
               <FirstPersonWeapon updatePlayer={updatePlayer} localState={localState} gameState={gameState} />
               <HUD localState={localState} gameState={gameState} />
