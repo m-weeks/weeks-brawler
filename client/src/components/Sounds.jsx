@@ -32,7 +32,6 @@ const PlayerNoises = ({ player, myPlayer }) => {
     const distance = playerPos.distanceTo(myPos);
     const volume = Math.min(1 / Math.pow(distance, 4), 1) * scale;
 
-    console.log(volume)
     if (volume < 0.02) {
       return;
     }
