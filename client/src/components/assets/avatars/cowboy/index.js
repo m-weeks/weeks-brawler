@@ -15,6 +15,9 @@ import leftStep2 from './left-step-2.png';
 import rightStep1 from './right-step-1.png';
 import rightStep2 from './right-step-2.png';
 import hit from './hit.png';
+import weaponIdle from './weapon-idle.png';
+import weapon1 from './weapon-1.png';
+import weapon2 from './weapon-2.png';
 
 export default {
   front: {
@@ -37,4 +40,8 @@ export default {
     idle: behindIdle,
     step: [behindStep1, behindStep2],
   },
+  weapon: {
+    idle: weaponIdle,
+    punch: [weapon1, weapon2],
+  }
 };
