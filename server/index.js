@@ -31,7 +31,7 @@ const server = Bun.serve({
         updatePlayerState(clientId, scrubbed);
       }
       if (msg.type === 'PUNCH') {
-        hitPlayer(msg.data.clientId)
+        hitPlayer(msg.data.clientId, clientId)
       }
     },
     async open(ws) {

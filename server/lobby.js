@@ -53,15 +53,20 @@ export const updatePlayerState = (clientId, newPlayerState) => {
   }
 };
 
-export const hitPlayer = (clientId) => {
+export const hitPlayer = (clientId, curClientId) => {
+  const curPlayer = gameState.players[curClientId];
+  // If the current player is dead or currently in iframes don't let them attack
+  if (curPlayer.health <=0 || curPlayer.iFrame) {
+    return;
+  }
   const player = gameState.players[clientId]
   if (player.health <= 0 || player.iFrame) {
-    return
+    return;
   }
-  player.health -= 10
-  player.iFrame = true
+  player.health -= 10;
+  player.iFrame = true;
   setTimeout(() => {
-    gameState.players[clientId].iFrame = false
+    gameState.players[clientId].iFrame = false;
   }, 500)
 }
 
