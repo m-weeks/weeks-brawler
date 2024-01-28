@@ -18,7 +18,7 @@ export default ({ children }) => {
 
   // @TODO: This is being run twice, why?
   useEffect(() => {
-    const socket = new WebSocket('ws://localhost:5174');
+    const socket = new WebSocket(import.meta.env.VITE_WEBSOCKET_SERVER);
     socketRef.current = socket;
 
     socket.onopen = (e) => {
