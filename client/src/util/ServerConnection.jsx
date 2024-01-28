@@ -16,7 +16,6 @@ export default ({ children }) => {
   const localStateRef = useRef(localState)
   localStateRef.current = localState
 
-  // @TODO: This is being run twice, why?
   useEffect(() => {
     const socket = new WebSocket(import.meta.env.VITE_WEBSOCKET_SERVER);
     socketRef.current = socket;
