@@ -27,7 +27,7 @@ const server = Bun.serve({
       }
       if (msg.type === 'PLAYER_STATE') {
         //sanitize
-        const scrubbed = _.pick(msg.data, ['x', 'z', 'angle', 'punching']);
+        const scrubbed = _.pick(msg.data, ['x', 'z', 'angle', 'punching', 'moving']);
         updatePlayerState(clientId, scrubbed);
       }
     },

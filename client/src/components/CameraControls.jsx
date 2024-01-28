@@ -137,7 +137,8 @@ export default function CameraControls({ myPlayer, updatePlayer }) {
     updatePlayer({
       x: camera.position.x,
       z: camera.position.z,
-      angle: camera.rotation.y,
+      angle: camera.rotation.y % (Math.PI * 2),
+      moving: moveForward.current || moveBackward.current || moveLeft.current || moveRight.current,
     });
   });
 
