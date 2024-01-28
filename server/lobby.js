@@ -1,5 +1,5 @@
 import _ from 'lodash';
-const LOBBY_SIZE = 4;
+const LOBBY_SIZE = 10;
 
 const lobby = {
   clients: {},
