@@ -11,6 +11,35 @@ const initialGameState = {
 
 const gameState = _.cloneDeep(initialGameState);
 
+const map = [
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1],
+  [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+];
+
+const rand = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+const getStartingPosition = () => {
+  const zeroIndices = [];
+  map.forEach((row, rowIndex) => {
+    row.forEach((col, colIndex) => {
+      if (col === 0) {
+        zeroIndices.push([colIndex, rowIndex]);
+      }
+    });
+  });
+  const randomIndex = rand(0, zeroIndices.length - 1);
+  const [z, x] = zeroIndices[randomIndex];
+
+  return [x, z]
+};
+
 export const addToLobby = (ws, clientId, playerModelId) => {
   if (Object.keys(lobby.clients).length >= LOBBY_SIZE) {
     console.log('LOBBY FULL, REJECTING');
@@ -19,9 +48,12 @@ export const addToLobby = (ws, clientId, playerModelId) => {
 
   lobby.clients[clientId] = ws;
 
+  const [x, z] = getStartingPosition();
+  console.log(x, z)
+
   const player = {
-    x: 1,
-    z: 1,
+    x: x,
+    z: z,
     angle: Math.PI,
     punching: false,
     moving: false,
