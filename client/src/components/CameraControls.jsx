@@ -160,7 +160,7 @@ export default function CameraControls({ localState, updatePlayer, gameState, se
   const curPlayerState = gameState?.players[localState?.clientId];
 
   useFrame((_state, delta) => {
-    if (curPlayerState.health <= 0) {
+    if (curPlayerState?.health <= 0) {
       return;
     }
     const speedPerFrame = speed * delta;
