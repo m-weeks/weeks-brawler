@@ -42,7 +42,7 @@ const usePunch = ({ localState, gameState, sendMessage }) => {
       const distanceToPlayer = camera.position.distanceTo(new Vector3(player.x, 0, player.z));
 
       // If the angle is small enough, the player is in front of the camera
-      if (angle < Math.PI / 6 && distanceToPlayer < 0.4) {
+      if (angle < Math.PI / 4 && distanceToPlayer < 0.4) {
         sendMessage('PUNCH', { clientId: player.clientId })
       }
     });
@@ -73,7 +73,7 @@ export default function CameraControls({ localState, updatePlayer, gameState, se
   const rotateLeft = useRef(false);
   const rotateRight = useRef(false);
 
-  const speed = 0.03;
+  const speed = 2;
   const rotationSpeed = 0.04;
 
   const handleKeyDown = (event) => {
@@ -157,16 +157,16 @@ export default function CameraControls({ localState, updatePlayer, gameState, se
     };
   }, []);
 
-  useFrame(() => {
-    const delta = speed;
+  useFrame((_state, delta) => {
+    const speedPerFrame = speed * delta;
     const forwardDirection = new Vector3();
     const rightDirection = new Vector3();
     camera.getWorldDirection(forwardDirection);
     rightDirection.copy(forwardDirection).applyAxisAngle(new Vector3(0, 1, 0), Math.PI / 2);
   
     // Calculate new positions
-    const newPositionX = camera.position.x - forwardDirection.x * (moveBackward.current - moveForward.current) * delta - rightDirection.x * (moveRight.current - moveLeft.current) * delta;
-    const newPositionZ = camera.position.z - forwardDirection.z * (moveBackward.current - moveForward.current) * delta - rightDirection.z * (moveRight.current - moveLeft.current) * delta;
+    const newPositionX = camera.position.x - forwardDirection.x * (moveBackward.current - moveForward.current) * speedPerFrame - rightDirection.x * (moveRight.current - moveLeft.current) * speedPerFrame;
+    const newPositionZ = camera.position.z - forwardDirection.z * (moveBackward.current - moveForward.current) * speedPerFrame - rightDirection.z * (moveRight.current - moveLeft.current) * speedPerFrame;
   
     if (!checkCollision({ x: newPositionX, z: camera.position.z })) {
       camera.position.x = newPositionX;
