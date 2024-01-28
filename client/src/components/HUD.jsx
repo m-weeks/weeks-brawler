@@ -11,8 +11,14 @@ export default function HUD({ localState, gameState }) {
       </div>
       {
           myPlayer?.health <= 0 ? (
-            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: 60 }}>
-              DEAD
+            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}>
+              <div style={{ fontSize: 60 }}>
+                DEAD
+              </div>
+
+              <button onClick={() => { window.location.reload() }}>
+                respawn
+              </button>
             </div>
           ) : null
       }
