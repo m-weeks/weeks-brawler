@@ -16,6 +16,7 @@ function App() {
           (({ gameState, localState, updatePlayer, sendMessage }) => (
             <>
               <Canvas style={{ width: '100vw', height: '100vh' }}>
+
                 <CameraControls localState={localState} updatePlayer={updatePlayer} gameState={gameState} sendMessage={sendMessage} />
                 <ambientLight intensity={2} />
                 <Map />

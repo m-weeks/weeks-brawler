@@ -53,6 +53,7 @@ const usePunch = ({ localState, gameState, sendMessage }) => {
 
 export default function CameraControls({ localState, updatePlayer, gameState, sendMessage }) {
   const { myPlayer } = localState;
+  
   const {
     camera,
   } = useThree();

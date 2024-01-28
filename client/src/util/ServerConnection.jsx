@@ -102,7 +102,7 @@ export default ({ children }) => {
     }
   }, [sendMessage])
 
-  if (!localState.loaded) {
+  if (!localState.loaded || !localState.myPlayer || !gameState.players) {
     return null;
   }
 
