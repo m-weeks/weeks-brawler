@@ -23,7 +23,7 @@ const server = Bun.serve({
       const msg = JSON.parse(message);
 
       if (msg.type === 'JOIN') {
-        addToLobby(ws, clientId);
+        addToLobby(ws, clientId, msg.data.playerModelId);
       }
       if (msg.type === 'PLAYER_STATE') {
         //sanitize

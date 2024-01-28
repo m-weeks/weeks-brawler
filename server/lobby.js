@@ -11,7 +11,7 @@ const initialGameState = {
 
 const gameState = _.cloneDeep(initialGameState);
 
-export const addToLobby = (ws, clientId) => {
+export const addToLobby = (ws, clientId, playerModelId) => {
   if (Object.keys(lobby.clients).length >= LOBBY_SIZE) {
     console.log('LOBBY FULL, REJECTING');
     return;
@@ -26,7 +26,8 @@ export const addToLobby = (ws, clientId) => {
     punching: false,
     moving: false,
     health: 100,
-    iFrame: false
+    iFrame: false,
+    playerModelId: playerModelId
   };
 
   gameState.players[clientId] = player;

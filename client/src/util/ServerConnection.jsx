@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import _ from 'lodash';
+import avatars from '../components/assets/avatars';
 
 export default ({ children }) => {
   const [gameState, setGameState] = useState({
@@ -29,6 +30,9 @@ export default ({ children }) => {
       socket.send(JSON.stringify(
         {
           type: 'JOIN',
+          data: {
+            playerModelId: Math.floor(Math.random() * avatars.length)
+          }
         }
       ));
     };

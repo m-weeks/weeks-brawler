@@ -4,13 +4,11 @@ import { TextureLoader, SpriteMaterial, Sprite } from 'three';
 import avatars from './assets/avatars';
 import death from './assets/death.png';
 
-console.log(avatars)
-
 const Avatar = ({ player, myPlayer }) => {
-  const { angle, punching, moving, iFrame } = player;
+  const { angle, punching, moving, iFrame, playerModelId } = player;
   const dead = player.health <= 0;
 
-  const curAvatar = avatars[0];
+  const curAvatar = avatars[playerModelId];
   const avatarRef = useRef(curAvatar);
   avatarRef.current = curAvatar;
   

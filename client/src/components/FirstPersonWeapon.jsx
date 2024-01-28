@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import avatars from './assets/avatars';
 
 export default function FirstPersonWeapon({ updatePlayer, localState, gameState }) {
-  const avatar = avatars[5];
+  const myPlayer = gameState?.players?.[localState?.clientId];
+
+  const avatar = avatars[myPlayer.playerModelId];
   const avatarRef = useRef(avatar);
   avatarRef.current = avatar;
 
@@ -38,7 +40,6 @@ export default function FirstPersonWeapon({ updatePlayer, localState, gameState 
     updatePlayer({ punching: punch })
   }, [punch])
 
-  const myPlayer = gameState?.players?.[localState?.clientId];
   const { iFrame } = myPlayer ?? {}
   const [opacity, setOpacity] = useState(1);
   useEffect(() => {
