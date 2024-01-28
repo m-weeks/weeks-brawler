@@ -20,8 +20,8 @@ export const addToLobby = (ws, clientId) => {
   lobby.clients[clientId] = ws;
 
   const player = {
-    x: 1.5,
-    z: 1.5,
+    x: 1,
+    z: 1,
     angle: Math.PI,
     punching: false,
     moving: false,

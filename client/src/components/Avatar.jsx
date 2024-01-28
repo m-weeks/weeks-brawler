@@ -1,50 +1,23 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useLoader } from '@react-three/fiber';
 import { TextureLoader, SpriteMaterial, Sprite } from 'three';
-import idle from './assets/avatar/idle.png';
-import punch1 from './assets/avatar/punch-1.png';
-import punch2 from './assets/avatar/punch-2.png';
-import leftIdle from './assets/avatar/left-idle.png';
-import rightIdle from './assets/avatar/right-idle.png';
-import leftPunch from './assets/avatar/left-punch.png';
-import rightPunch from './assets/avatar/right-punch.png';
-import behind from './assets/avatar/behind.png';
-import step1 from './assets/avatar/step-1.png';
-import step2 from './assets/avatar/step-2.png';
-import stepLeft from './assets/avatar/step-left.png';
-import stepRight from './assets/avatar/step-right.png';
-import stepBehind1 from './assets/avatar/step-behind-1.png';
-import stepBehind2 from './assets/avatar/step-behind-2.png';
-import hit from './assets/avatar/hit.png';
-import death from './assets/avatar/death.png'
+import avatars from './assets/avatars';
+import death from './assets/death.png';
 
-const avatarImages = {
-  idle,
-  punch1,
-  punch2,
-  leftIdle,
-  leftPunch,
-  rightIdle,
-  rightPunch,
-  behind,
-  step1,
-  step2,
-  stepLeft,
-  stepRight,
-  stepBehind1,
-  stepBehind2,
-  hit,
-  death,
-};
+console.log(avatars)
 
 const Avatar = ({ player, myPlayer }) => {
   const { angle, punching, moving, iFrame } = player;
   const dead = player.health <= 0;
+
+  const curAvatar = avatars[0];
+  const avatarRef = useRef(curAvatar);
+  avatarRef.current = curAvatar;
   
-  const punchTypeRef = useRef('punch1')
+  const punchTypeRef = useRef(curAvatar.front.punch[0])
   useEffect(() => {
     if (punching) {
-      punchTypeRef.current = Math.random() < 0.5 ? 'punch1' : 'punch2';
+      punchTypeRef.current = Math.random() < 0.5 ? avatarRef.current.front.punch[0] : avatarRef.current.front.punch[1];
     }
   }, [punching])
 
@@ -63,45 +36,46 @@ const Avatar = ({ player, myPlayer }) => {
   }, [moving])
 
   const avatarType = useMemo(() => {
+    const avatar = avatarRef.current;
     if (dead) {
-      return 'death';
+      return death;
     }
     let diff = (myPlayer.angle - angle) * (180 / Math.PI);
     diff = (diff +  360) % 360;
     if (diff > 45 && diff < 135) {
       if (punching) {
-        return 'rightPunch'
+        return avatar.right.punch;
       }
-      if (moving && stepFrame === 1) { 
-        return 'stepRight'
+      if (moving) { 
+        return avatar.right.step[stepFrame - 1];
       }
-      return 'rightIdle'
+      return avatar.right.idle;
     }
     if (diff > 135 && diff < 225) {
       if (punching) {
         return punchTypeRef.current;
       }
       if (moving) {
-        return stepFrame === 1 ? 'step1' : 'step2'
+        return avatar.front.step[stepFrame - 1];
       }
       if (iFrame) {
-        return 'hit';
+        return avatar.front.hit;
       }
-      return 'idle';
+      return avatar.front.idle;
     }
     if (diff > 225 && diff < 315) {
       if (punching) {
-        return 'leftPunch'
+        return avatar.left.punch;
       }
-      if (moving && stepFrame === 1) { 
-        return 'stepLeft'
+      if (moving) { 
+        return avatar.right.step[stepFrame - 1];
       }
-      return 'leftIdle'
+      return avatar.left.idle;
     }
     if (moving) {
-      return stepFrame === 1 ? 'stepBehind1' : 'stepBehind2'
+      return avatar.behind.step[stepFrame - 1];
     }
-    return 'behind';
+    return avatar.behind.idle;
   }, [angle, punching, myPlayer, stepFrame, moving, iFrame, dead]);
 
   const [opacity, setOpacity] = useState(1);
@@ -121,7 +95,7 @@ const Avatar = ({ player, myPlayer }) => {
     }
   }, [iFrame])
 
-  const texture = useLoader(TextureLoader, avatarImages[avatarType]);
+  const texture = useLoader(TextureLoader, avatarType);
   const material = new SpriteMaterial({ map: texture, opacity: opacity })
 
   return (
