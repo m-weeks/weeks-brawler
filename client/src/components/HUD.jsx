@@ -11,8 +11,12 @@ export default function HUD({ localState, gameState }) {
       </div>
       {
           myPlayer?.health <= 0 ? (
-            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}>
-              <div style={{ fontSize: 60 }}>
+            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center' }}>
+              <div style={{
+                fontSize: 60,
+                fontFamily: 'fantasy',
+                textShadow: '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px'
+              }}>
                 DEAD
               </div>
 

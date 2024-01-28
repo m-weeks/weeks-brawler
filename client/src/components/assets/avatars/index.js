@@ -6,10 +6,10 @@ import cowboy from './cowboy'
 import businessman from './businessman'
 
 export default [
-  wizard,
-  russian,
+  businessman,
   morpheus,
   hippy,
   cowboy,
-  businessman
+  wizard,
+  russian,
 ]

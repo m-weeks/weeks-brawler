@@ -7,41 +7,44 @@ import FirstPersonWeapon from './components/FirstPersonWeapon';
 import ServerConnection from './util/ServerConnection';
 import HUD from './components/HUD';
 import Sounds from './components/Sounds';
+import AvatarSelector from './components/AvatarSelector';
 
 function App() {
   return (
     <div style={{ position: 'relative' }}>
-      <ServerConnection>
-        {
-          (({ gameState, localState, updatePlayer, sendMessage }) => (
-            <>
-              <Canvas style={{ width: '100vw', height: '100vh' }}>
+      <AvatarSelector>
+        <ServerConnection>
+          {
+            (({ gameState, localState, updatePlayer, sendMessage }) => (
+              <>
+                <Canvas style={{ width: '100vw', height: '100vh' }}>
 
-                <CameraControls localState={localState} updatePlayer={updatePlayer} gameState={gameState} sendMessage={sendMessage} />
-                <ambientLight intensity={2} />
-                <Map />
-                {
-                  _.map(gameState.players, (player, playerId) => {
-                    if (playerId === localState.clientId) {
-                      return null;
-                    }
-                    return (
-                      <Avatar
-                        key={playerId}
-                        player={player}
-                        myPlayer={localState.myPlayer}
-                      />
-                    );
-                  })
-                }
-                <Sounds localState={localState} gameState={gameState} />
-              </Canvas>
-              <FirstPersonWeapon updatePlayer={updatePlayer} localState={localState} gameState={gameState} />
-              <HUD localState={localState} gameState={gameState} />
-            </>
-          ))
-        }
-      </ServerConnection>
+                  <CameraControls localState={localState} updatePlayer={updatePlayer} gameState={gameState} sendMessage={sendMessage} />
+                  <ambientLight intensity={2} />
+                  <Map />
+                  {
+                    _.map(gameState.players, (player, playerId) => {
+                      if (playerId === localState.clientId) {
+                        return null;
+                      }
+                      return (
+                        <Avatar
+                          key={playerId}
+                          player={player}
+                          myPlayer={localState.myPlayer}
+                        />
+                      );
+                    })
+                  }
+                  <Sounds localState={localState} gameState={gameState} />
+                </Canvas>
+                <FirstPersonWeapon updatePlayer={updatePlayer} localState={localState} gameState={gameState} />
+                <HUD localState={localState} gameState={gameState} />
+              </>
+            ))
+          }
+        </ServerConnection>
+      </AvatarSelector>
     </div>
   );
 }

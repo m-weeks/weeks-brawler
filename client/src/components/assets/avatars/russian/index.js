@@ -20,6 +20,7 @@ import weapon1 from './weapon-1.png';
 import weapon2 from './weapon-2.png';
 
 export default {
+  name: 'Boris',
   front: {
     idle: frontIdle,
     punch: [frontPunch1, frontPunch2],

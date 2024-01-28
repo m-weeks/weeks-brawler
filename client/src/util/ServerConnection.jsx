@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import _ from 'lodash';
-import avatars from '../components/assets/avatars';
+import { avatarData } from '../components/AvatarSelector';
 
 export default ({ children }) => {
   const [gameState, setGameState] = useState({
@@ -31,7 +31,7 @@ export default ({ children }) => {
         {
           type: 'JOIN',
           data: {
-            playerModelId: Math.floor(Math.random() * avatars.length)
+            playerModelId: avatarData.modelId
           }
         }
       ));
