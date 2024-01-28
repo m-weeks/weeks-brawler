@@ -15,6 +15,8 @@ import stepLeft from './assets/avatar/step-left.png';
 import stepRight from './assets/avatar/step-right.png';
 import stepBehind1 from './assets/avatar/step-behind-1.png';
 import stepBehind2 from './assets/avatar/step-behind-2.png';
+import hit from './assets/avatar/hit.png';
+import death from './assets/avatar/death.png'
 
 const avatarImages = {
   idle,
@@ -31,11 +33,14 @@ const avatarImages = {
   stepRight,
   stepBehind1,
   stepBehind2,
+  hit,
+  death,
 };
 
 const Avatar = ({ player, myPlayer }) => {
-  const { angle, punching, moving } = player;
-
+  const { angle, punching, moving, iFrame } = player;
+  const dead = player.health <= 0;
+  
   const punchTypeRef = useRef('punch1')
   useEffect(() => {
     if (punching) {
@@ -58,9 +63,11 @@ const Avatar = ({ player, myPlayer }) => {
   }, [moving])
 
   const avatarType = useMemo(() => {
+    if (dead) {
+      return 'death';
+    }
     let diff = (myPlayer.angle - angle) * (180 / Math.PI);
     diff = (diff +  360) % 360;
-    console.log(diff)
     if (diff > 45 && diff < 135) {
       if (punching) {
         return 'rightPunch'
@@ -77,6 +84,9 @@ const Avatar = ({ player, myPlayer }) => {
       if (moving) {
         return stepFrame === 1 ? 'step1' : 'step2'
       }
+      if (iFrame) {
+        return 'hit';
+      }
       return 'idle';
     }
     if (diff > 225 && diff < 315) {
@@ -92,15 +102,31 @@ const Avatar = ({ player, myPlayer }) => {
       return stepFrame === 1 ? 'stepBehind1' : 'stepBehind2'
     }
     return 'behind';
-  }, [angle, punching, myPlayer, stepFrame, moving]);
+  }, [angle, punching, myPlayer, stepFrame, moving, iFrame, dead]);
+
+  const [opacity, setOpacity] = useState(1);
+
+  useEffect(() => {
+    let interval;
+    if (iFrame) {
+      interval = setInterval(() => {
+        setOpacity((oldOpacity) => oldOpacity === 1 ? 0 : 1);
+      }, 50)
+    }
+    if (!iFrame) {
+      setOpacity(1);
+    }
+    return () => {
+      clearInterval(interval);
+    }
+  }, [iFrame])
 
   const texture = useLoader(TextureLoader, avatarImages[avatarType]);
-  const material = useMemo(() => new SpriteMaterial({ map: texture, transparent: true }), [texture]);
+  const material = new SpriteMaterial({ map: texture, opacity: opacity })
 
   return (
     <sprite
       material={material}
-      
       position={[
         player.x,
         0 - (0.1 / 2),

@@ -1,9 +1,58 @@
+import _ from 'lodash';
 import { useEffect, useRef } from 'react';
 import { useThree, useFrame } from '@react-three/fiber';
 import { mapData } from './Map';
 import { Vector3 } from 'three'
 
-export default function CameraControls({ myPlayer, updatePlayer }) {
+const usePunch = ({ localState, gameState, sendMessage }) => {
+  const { myPlayer } = localState;
+  const { punching } = myPlayer;
+
+  const {
+    camera,
+  } = useThree();
+
+  const otherPlayers = _.compact(
+    _.map(gameState.players, (player, playerId) => {
+      if (playerId === localState.clientId) {
+        return null;
+      }
+      return  {
+        ...player,
+        clientId: playerId
+      };
+    })
+  )
+  const otherPlayersRef = useRef(otherPlayers);
+  otherPlayersRef.current = otherPlayers;
+
+  useEffect(() => {
+    if (!punching) return;
+
+    const cameraDirection = new Vector3();
+    camera.getWorldDirection(cameraDirection);
+
+    otherPlayersRef.current.forEach(player => {
+      const directionToPlayer = new Vector3().subVectors(
+        new Vector3(player.x, 0, player.z),
+        camera.position
+      ).normalize();
+      const angle = cameraDirection.angleTo(directionToPlayer);
+
+      const distanceToPlayer = camera.position.distanceTo(new Vector3(player.x, 0, player.z));
+
+      // If the angle is small enough, the player is in front of the camera
+      if (angle < Math.PI / 6 && distanceToPlayer < 0.4) {
+        sendMessage('PUNCH', { clientId: player.clientId })
+      }
+    });
+    
+  }, [punching, sendMessage])
+  
+}
+
+export default function CameraControls({ localState, updatePlayer, gameState, sendMessage }) {
+  const { myPlayer } = localState;
   const {
     camera,
   } = useThree();
@@ -141,6 +190,8 @@ export default function CameraControls({ myPlayer, updatePlayer }) {
       moving: moveForward.current || moveBackward.current || moveLeft.current || moveRight.current,
     });
   });
+
+  usePunch({ localState, gameState, sendMessage })
 
   return null;
 }

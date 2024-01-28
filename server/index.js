@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { addToLobby, removeFromLobby, updatePlayerState } from './lobby';
+import { addToLobby, hitPlayer, removeFromLobby, updatePlayerState } from './lobby';
 
 const clients = new Map();
 
@@ -29,6 +29,9 @@ const server = Bun.serve({
         //sanitize
         const scrubbed = _.pick(msg.data, ['x', 'z', 'angle', 'punching', 'moving']);
         updatePlayerState(clientId, scrubbed);
+      }
+      if (msg.type === 'PUNCH') {
+        hitPlayer(msg.data.clientId)
       }
     },
     async open(ws) {

@@ -109,7 +109,7 @@ export default ({ children }) => {
 
   return (
     <>
-      {children({ gameState, localState, updatePlayer })}
+      {children({ gameState, localState, updatePlayer, sendMessage })}
     </>
   )
 }

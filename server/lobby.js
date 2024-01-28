@@ -25,6 +25,8 @@ export const addToLobby = (ws, clientId) => {
     angle: Math.PI,
     punching: false,
     moving: false,
+    health: 100,
+    iFrame: false
   };
 
   gameState.players[clientId] = player;
@@ -50,6 +52,18 @@ export const updatePlayerState = (clientId, newPlayerState) => {
     id: clientId, // ensure clientId is not overwritten
   }
 };
+
+export const hitPlayer = (clientId) => {
+  const player = gameState.players[clientId]
+  if (player.health <= 0 || player.iFrame) {
+    return
+  }
+  player.health -= 10
+  player.iFrame = true
+  setTimeout(() => {
+    gameState.players[clientId].iFrame = false
+  }, 500)
+}
 
 const broadcastMsg = (data = {}) => {
   _.forEach(lobby.clients, (ws, clientId) => {
