@@ -66,7 +66,7 @@ const Avatar = ({ player, myPlayer }) => {
         return avatar.left.punch;
       }
       if (moving) { 
-        return avatar.right.step[stepFrame - 1];
+        return avatar.left.step[stepFrame - 1];
       }
       return avatar.left.idle;
     }
