@@ -66,7 +66,7 @@ export default function FirstPersonWeapon({ updatePlayer, localState, gameState 
       {/* Load images beforehand so they are ready for use (Otherwise they may not load in production) */}
       <div style={{ position: 'absolute', width: 0, height: 0, top: 0, left: 0, overflow: 'hidden'}}>
         <img src={avatarRef.current.weapon.punch[0]} />
-        <img src={avatarRef.current.weapon.punch[0]} />
+        <img src={avatarRef.current.weapon.punch[1]} />
         <img src={avatarRef.current.weapon.idle} />
       </div>
       <img

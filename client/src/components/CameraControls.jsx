@@ -75,7 +75,7 @@ export default function CameraControls({ localState, updatePlayer, gameState, se
   const rotateRight = useRef(false);
 
   const speed = 2;
-  const rotationSpeed = 0.04;
+  const rotationSpeed = 3;
 
   const handleKeyDown = (event) => {
     switch (event.code) {
@@ -165,6 +165,7 @@ export default function CameraControls({ localState, updatePlayer, gameState, se
       return;
     }
     const speedPerFrame = speed * delta;
+    const rotationPerFrame = rotationSpeed * delta;
     const forwardDirection = new Vector3();
     const rightDirection = new Vector3();
     camera.getWorldDirection(forwardDirection);
@@ -182,10 +183,10 @@ export default function CameraControls({ localState, updatePlayer, gameState, se
     }
   
     if (rotateLeft.current) {
-      camera.rotation.y += rotationSpeed;
+      camera.rotation.y += rotationPerFrame;
     }
     if (rotateRight.current) {
-      camera.rotation.y -= rotationSpeed;
+      camera.rotation.y -= rotationPerFrame;
     }
 
     // Update local state copy to have new position. This will get synced with the server at a regular interval
